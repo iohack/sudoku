@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="fixed">
+  <issue id="LOG4J2-493" link="https://issues.apache.org/jira/browse/LOG4J2-493"/>
+  <description format="asciidoc">Better web app support for async loggers: it is now possible to place the logging jars in the container's
+        classpath when making all loggers asynchronous by using AsyncLoggerContextSelector. This fixes a problem where
+        logging would stop working after stopping and restarting a web application.</description>
+</entry>

@@ -1,0 +1,684 @@
+////
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+////
+
+= Appenders
+
+Appenders are responsible for delivering log events to their destination.
+Every Appender must implement the
+link:../javadoc/log4j-core/org/apache/logging/log4j/core/Appender.html[`Appender`]
+interface.
+
+While not strictly required by the Log4j Core architecture, most appenders inherit from
+link:../javadoc/log4j-core/org/apache/logging/log4j/core/appender/AbstractAppender.html[`AbstractAppender`]
+and:
+
+* delegate the filtering of log events to an implementation of
+link:../javadoc/log4j-core/org/apache/logging/log4j/core/Filter.html[`Filter`].
+See xref:manual/filters.adoc[] for more information.
+* delegate the formatting of log events to an implementation of
+link:../javadoc/log4j-core/org/apache/logging/log4j/core/Layout.html[`Layout`].
+See xref:manual/layouts.adoc[] for more information.
+* only directly handle the writing of log event data to the target destination.
+
+Appenders always have a name so that they can be referenced from a
+xref:manual/configuration.adoc#configuring-loggers[logger configuration].
+
+[#commons-concerns]
+== Common concerns
+
+[#buffering]
+=== Buffering
+
+Appenders that use stream-like resources (such as files, TCP connections) have an internal
+https://docs.oracle.com/javase/{java-target-version}/docs/api/java/nio/ByteBuffer.html[`ByteBuffer`]
+that can be used to format each log event, before sending it to the underlying resource.
+The buffer is used if:
+
+* the
+xref:manual/systemproperties.adoc#log4j2.enableDirectEncoders[`log4j2.enableDirectEncoders`]
+configuration property is enabled,
+* or the <<bufferedIo,`bufferedIo`>> configuration attribute is enabled.
+
+The buffer is flushed to the underlying resource on three occasions:
+
+* if the buffer is full.
+* at the end of each log event batch, if
+xref:manual/async.adoc[asynchronous loggers]
+or
+xref:manual/appenders/delegating.adoc#AsyncAppender[appenders]
+are used.
+* at the end of each log event, if the
+<<immediateFlush,`immediateFlush`>>
+configuration attribute is `true`.
+
+These configuration attributes are shared by multiple appenders:
+
+[#bufferSize]
+==== `bufferSize`
+
+[cols="1h,5"]
+|===
+| Type
+| `int`
+
+| Default value
+| xref:manual/systemproperties.adoc#log4j2.encoderByteBufferSize[`log4j2.encoderByteBufferSize`]
+|===
+
+This configuration attribute specifies the size of the `ByteBuffer` used by the appender.
+
+[#bufferedIo]
+==== `bufferedIo`
+
+[cols="1h,5"]
+|===
+| Type          | `boolean`
+| Default value | `true`
+|===
+
+If set to `true`, Log4j Core will use an internal `ByteBuffer` to store log events before sending them.
+
+If the xref:manual/systemproperties.adoc#log4j2.enableDirectEncoders[`log4j2.enableDirectEncoders`] configuration property is set to `true`, the internal `ByteBuffer` will always be used.
+
+[#immediateFlush]
+==== `immediateFlush`
+
+[cols="1h,5"]
+|===
+| Type          | `boolean`
+| Default value | `true`
+|===
+
+If set to `true`, Log4j will flush Log4j Core and Java buffers at the end of each event:
+
+* the internal `ByteBuffer` of the appender will be flushed.
+* for appenders based on Java's
+https://docs.oracle.com/javase/{java-target-version}/docs/api/java/io/OutputStream.html[`OutputStream`]
+a call to the `OutputStream.flush()` method will be performed.
+
+[IMPORTANT]
+====
+This setting only guarantees that a byte representation of the log event is passed to the operating system.
+It does not ensure that the operating system writes the event to the underlying storage.
+====
+
+[TIP]
+====
+If you are using
+xref:manual/async.adoc[asynchronous loggers]
+or
+xref:manual/appenders/delegating.adoc#AsyncAppender[appenders], you can set this attribute to `false`.
+Log4j Core will still flush the internal buffer whenever the log event queue becomes empty.
+====
+
+[#exception-handling]
+=== Exception handling
+
+By default, Log4j Core uses xref:manual/status-logger.adoc[] to report exceptions that occur in appenders.
+This behavior can be changed using the following configuration property:
+
+[#ignoreExceptions]
+==== `ignoreExceptions`
+
+[cols="1h,5"]
+|===
+| Type          | `boolean`
+| Default value | `true`
+|===
+
+If `false` logging exceptions will be forwarded to the caller.
+Otherwise, they will be logged using xref:manual/status-logger.adoc[].
+
+[TIP]
+====
+If logging is important for your business, consider using a
+xref:manual/appenders/delegating.adoc#FailoverAppender[`Failover` Appender]
+to redirect log events to a different appender in case of exceptions.
+====
+
+[#runtime-evaluation]
+=== Runtime evaluation of attributes
+
+The following configuration attributes are also evaluated at runtime, so can contain escaped `$$+{...}+` property substitution expressions.
+
+.List of attributes evaluated at runtime
+[cols="1,1,1,1"]
+|===
+| Component | Parameter | Event type | Evaluation context
+
+| xref:manual/appenders/network.adoc#HttpAppender[HTTP Appender]
+| xref:manual/appenders/network.adoc#HttpAppender-element-Property[`Property/value`]
+| Log event
+| xref:manual/lookups.adoc#global-context[_global_]
+
+| xref:manual/appenders/message-queue.adoc#KafkaAppender[Kafka Appender]
+| xref:manual/appenders/message-queue.adoc#KafkaAppender-attr-key[`key`]
+| Log event
+| xref:manual/lookups.adoc#global-context[_global_]
+
+| xref:manual/appenders/database.adoc#NoSqlAppender[NoSQL Appender]
+| xref:manual/appenders/database.adoc#NoSqlAppender-element-KeyValuePair[`KeyValuePair/value`]
+| Log event
+| xref:manual/lookups.adoc#global-context[_global_]
+
+| xref:manual/appenders/delegating.adoc#PropertiesRewritePolicy[PropertiesRewrite Policy]
+| xref:manual/appenders/delegating.adoc#PropertiesRewritePolicy-element-Property[`Property/value`]
+| Log event
+| xref:manual/lookups.adoc#global-context[_global_]
+
+| xref:manual/appenders/delegating.adoc#Routes[Routes Container]
+| xref:manual/appenders/delegating.adoc#Routes-attr-pattern[`pattern`]
+| Log event
+| xref:manual/lookups.adoc#event-context[_log event_]
+
+| xref:manual/appenders/rolling-file.adoc[Rolling File Appenders]
+| xref:manual/appenders/rolling-file.adoc#attr-filePattern[`filePattern`]
+| Rollover
+| xref:manual/lookups.adoc#global-context[_global_]
+
+| xref:manual/appenders/rolling-file.adoc#AbstractPathAction[Optional Rollover Actions]
+| xref:manual/appenders/rolling-file.adoc#AbstractPathAction-attr-basePath[`basePath`]
+| Rollover
+| xref:manual/lookups.adoc#global-context[_global_]
+
+|===
+
+The
+xref:manual/appenders/delegating.adoc#Route[`Route`]
+component of the
+xref:manual/appenders/delegating.adoc#RoutingAppender[Routing Appender]
+is special: its children are evaluated at runtime, but they are **not** evaluated at configuration time.
+Inside the `Route` component you **should not** use escaped `$$+{...}+` property substitution expressions, but only unescaped `$+{...}+` property substitution expressions.
+
+See xref:manual/configuration.adoc#lazy-property-substitution[runtime property substitution] for more details.
+
+[#collection]
+== Collection
+
+Log4j bundles several predefined appenders to assist in several common deployment use cases.
+They are documented in separate pages based on their target resource:
+
+[#ConsoleAppender]
+=== Console Appender
+
+As one might expect, the Console Appender writes its output to either the standard output or standard error output.
+The appender supports four different ways to access the output streams:
+
+`direct`::
+This mode gives the best performance.
+It can be enabled by setting the <<ConsoleAppender-attr-direct,`direct`>> attribute to `true`.
+
+`default`::
+By default, the Console appender uses the values of `System.out` or `System.err` present at **configuration time**.
+Any changes to those streams at runtime will be ignored.
+
+`follow`::
+This mode always uses the **current** value of the `System.out` and `System.err` streams.
+It can be enabled by setting the <<ConsoleAppender-attr-follow,`follow`>> attribute to `true`.
++
+[TIP]
+====
+This setting might be useful in multi-application environments.
+Some application servers modify `System.out` and `System.err` to always point to the currently running application.
+====
+
+`JANSI`::
+If the application is running on Windows and the
+https://fusesource.github.io/jansi/[JANSI library]
+is available, the Console appender will use JANSI to emulate ANSI sequence support.
+This mode can be disabled by setting the
+xref:manual/systemproperties.adoc#log4j2.skipJansi[`log4j2.skipJansi`]
+configuration attribute to `true`.
++
+Additional runtime dependencies are required to use JANSI:
++
+[tabs]
+====
+Maven::
++
+[source,xml,subs="+attributes"]
+----
+<dependency>
+  <groupId>org.fusesource.jansi</groupId>
+  <artifactId>jansi</artifactId>
+  <version>{jansi-version}</version>
+</dependency>
+
+----
+
+Gradle::
++
+[source,groovy,subs="+attributes"]
+----
+runtimeOnly 'org.fusesource.jansi:jansi:{jansi-version}'
+----
+
+====
+
+[#ConsoleAppender-attributes]
+.Console Appender configuration attributes
+[cols="1m,1,1,5"]
+|===
+| Attribute | Type | Default value | Description
+
+4+h| Required
+
+| [[ConsoleAppender-attr-name]]name
+| `String`
+|
+| The name of the appender.
+
+4+h| Optional
+
+| [[ConsoleAppender-attr-bufferSize]]bufferSize
+| `int`
+| xref:manual/systemproperties.adoc#log4j2.encoderByteBufferSize[`8192`]
+a|
+The size of the
+https://docs.oracle.com/javase/{java-target-version}/docs/api/java/nio/ByteBuffer.html[`ByteBuffer`]
+internally used by the appender.
+
+See <<buffering,Buffering>> for more details.
+
+| [[ConsoleAppender-attr-direct]]direct
+| `boolean`
+| `false`
+a|
+If set to `true`, log events will be written directly to either
+https://docs.oracle.com/javase/8/docs/api/java/io/FileDescriptor.html#out[`FileDescriptor.out`]
+or
+https://docs.oracle.com/javase/8/docs/api/java/io/FileDescriptor.html#err[`FileDescriptor.err`].
+
+This setting bypasses the buffering of `System.out` and `System.err` and might provide a performance comparable to a xref:manual/appenders/file.adoc[file appender].
+
+[WARNING]
+====
+If other logging backends or the application itself uses `System.out/System.err`, setting this to `true` might cause interleaved output.
+====
+
+This setting is incompatible with the
+<<ConsoleAppender-attr-follow,`follow` attribute>>
+and
+xref:manual/systemproperties.adoc#log4j2.skipJansi[JANSI support].
+
+| [[ConsoleAppender-attr-follow]]
+follow
+| `boolean`
+| `false`
+|
+If set to `true`, the appender will honor reassignments of `System.out` (resp. `System.err`) via
+https://docs.oracle.com/javase/8/docs/api/java/lang/System.html#setOut-java.io.PrintStream-[`System.setOut`]
+(resp.
+https://docs.oracle.com/javase/8/docs/api/java/lang/System.html#setOut-java.io.PrintStream-[`System.setErr`]).
+
+Otherwise, the value of `System.out` (resp. `System.err`) at configuration time will be used.
+
+This setting is incompatible with the
+<<ConsoleAppender-attr-direct,`direct` attribute>>
+and
+xref:manual/systemproperties.adoc#log4j2.skipJansi[JANSI support].
+
+| [[ConsoleAppender-attr-ignoreExceptions]]
+ignoreExceptions
+| `boolean`
+| `true`
+| If `false`, logging exception will be forwarded to the caller of the logging statement.
+Otherwise, they will be ignored.
+
+Logging exceptions are always also logged to xref:manual/status-logger.adoc[]
+
+| [[ConsoleAppender-attr-immediateFlush]]
+immediateFlush
+| `boolean`
+| `true`
+|
+If set to `true`, the appender will flush its internal buffer and the buffer of the `System.out/System.err` stream after each log event.
+
+See xref:manual/appenders.adoc#buffering[Buffering] for more details.
+
+| [[ConsoleAppender-attr-target]]
+target
+| link:../javadoc/log4j-core/org/apache/logging/log4j/core/appender/ConsoleAppender.Target.html[`Target`]
+| link:../javadoc/log4j-core/org/apache/logging/log4j/core/appender/ConsoleAppender.Target.html#SYSTEM_OUT[`SYSTEM_OUT`]
+a|
+It specifies which standard output stream to use:
+
+`SYSTEM_OUT`::
+It uses the standard output.
+
+`SYSTEM_ERR`::
+It uses the standard error output.
+
+|===
+
+[#ConsoleAppender-elements]
+.Common nested elements
+[cols="1m,1,4"]
+|===
+
+| Type | Multiplicity | Description
+
+| [[ConsoleAppender-element-Filter]]
+xref:manual/filters.adoc[`Filter`]
+| zero or one
+|
+Allows filtering log events just before they are formatted and sent.
+
+See also xref:manual/filters.adoc#appender-stage[appender filtering stage].
+
+| [[ConsoleAppender-element-Layout]]
+xref:manual/layouts.adoc[`Layout`]
+| zero or one
+|
+Formats log events.
+
+See xref:manual/layouts.adoc[] for more information.
+
+|===
+
+xref:plugin-reference.adoc#org-apache-logging-log4j_log4j-core_org-apache-logging-log4j-core-appender-ConsoleAppender[{plugin-reference-marker} Plugin reference for `Console`]
+
+[#ConsoleAppender-examples]
+==== Configuration examples
+
+A typical configuration in a **development** environment might look like:
+
+[tabs]
+====
+XML::
++
+.Snippet from an example {antora-examples-url}/manual/appenders/console-dev.xml[`log4j2.xml`]
+[source,xml,indent=0]
+----
+include::example$manual/appenders/console-dev.xml[tag=appender]
+----
+
+JSON::
++
+.Snippet from an example {antora-examples-url}/manual/appenders/console-dev.json[`log4j2.json`]
+[source,json,indent=0]
+----
+include::example$manual/appenders/console-dev.json[tag=appender]
+----
+
+YAML::
++
+.Snippet from an example {antora-examples-url}/manual/appenders/console-dev.yaml[`log4j2.yaml`]
+[source,yaml,indent=0]
+----
+include::example$manual/appenders/console-dev.yaml[tag=appender]
+----
+
+Properties::
++
+.Snippet from an example {antora-examples-url}/manual/appenders/console-dev.properties[`log4j2.properties`]
+[source,properties,indent=0]
+----
+include::example$manual/appenders/console-dev.properties[tag=appender]
+----
+====
+
+A typical configuration for a **production** environment might look like
+
+[tabs]
+====
+XML::
++
+.Snippet from an example {antora-examples-url}/manual/appenders/console-prod.xml[`log4j2.xml`]
+[source,xml,indent=0]
+----
+include::example$manual/appenders/console-prod.xml[tag=appender]
+----
+
+JSON::
++
+.Snippet from an example {antora-examples-url}/manual/appenders/console-prod.json[`log4j2.json`]
+[source,json,indent=0]
+----
+include::example$manual/appenders/console-prod.json[tag=appender]
+----
+
+YAML::
++
+.Snippet from an example {antora-examples-url}/manual/appenders/console-prod.yaml[`log4j2.yaml`]
+[source,yaml,indent=0]
+----
+include::example$manual/appenders/console-prod.yaml[tag=appender]
+----
+
+Properties::
++
+.Snippet from an example {antora-examples-url}/manual/appenders/console-prod.properties[`log4j2.properties`]
+[source,properties,indent=0]
+----
+include::example$manual/appenders/console-prod.properties[tag=appender]
+----
+====
+
+<1> Improve performance by setting <<ConsoleAppender-attr-direct,`direct`>> to `true`.
+<2> Use a structured layout.
+Additional dependencies are required, see xref:manual/json-template-layout.adoc[].
+
+[#file-appenders]
+=== File appenders
+
+File appenders write logs to the filesystem.
+They can be further split into:
+
+[[FileAppender]][[MemoryMappedFileAppender]][[RandomAccessFileAppender]]Single file appenders:::
+See xref:manual/appenders/file.adoc[] for details.
+
+[[RollingFileAppender]][[RollingRandomAccessFileAppender]]Rolling file appenders:::
+See xref:manual/appenders/rolling-file.adoc[] for details.
+
+[#database-appenders]
+=== Database appenders
+
+The appenders write log events directly to a database.
+
+[#CassandraAppender]
+xref:manual/appenders/database.adoc#CassandraAppender[Cassandra appender]::
+Sends log events to
+https://cassandra.apache.org/_/index.html[Apache Cassandra]
+
+[#JDBCAppender]
+xref:manual/appenders/database.adoc#JdbcAppender[JDBC appender]::
+Sends log events to a JDBC driver
+
+[#JPAAppender]
+xref:manual/appenders/database.adoc#JpaAppender[JPA appender]::
+Uses Jakarta Persistence API to deliver log events to a database
+
+[#NoSQLAppender]
+[[NoSQLAppenderMongoDB]][[NoSQLAppenderMongoDB3]][[NoSQLAppenderMongoDB4]][[NoSQLAppenderCouchDB]]xref:manual/appenders/database.adoc#NoSqlAppender[NoSQL appender]::
+Store log events to a document-oriented database
+
+See xref:manual/appenders/database.adoc[] for details.
+
+[#network-appenders]
+=== [[SSL]][[SyslogAppender]]Network appenders
+
+These appenders use simple network protocols to transmit log events to a remote host.
+The supported network protocols are:
+
+[#SocketAppender]
+`UDP`::
+`TCP`::
+These are handled by the xref:manual/appenders/network.adoc#SocketAppender[Socket Appender].
+
+[#HttpAppender]
+`HTTP`::
+This is handled by the xref:manual/appenders/network.adoc#HttpAppender[HTTP Appender].
+
+[#SMTPAppender]
+`SMTP`::
+This is handled by the xref:manual/appenders/network.adoc#SmtpAppender[SMTP Appender].
+
+See xref:manual/appenders/network.adoc[] for details.
+
+[#message-queue-appenders]
+=== Message queue appenders
+
+Message queue appenders forward log events to a message broker.
+The following systems are supported:
+
+[#FlumeAppender]
+xref:manual/appenders/message-queue.adoc#FlumeAppender[Flume appender]::
+Forwards log events to an
+https://flume.apache.org/[Apache Flume] server.
+
+[#JMSAppender]
+xref:manual/appenders/message-queue.adoc#JmsAppender[JMS appender]::
+Forwards log events to a
+https://jakarta.ee/specifications/messaging/2.0/[Jakarta Message 2.0] broker.
+
+[#KafkaAppender]
+xref:manual/appenders/message-queue.adoc#KafkaAppender[Kafka appender]::
+Forwards log events to an
+https://kafka.apache.org/[Apache Kafka] server.
+
+[#JeroMQAppender]
+xref:manual/appenders/message-queue.adoc#JeroMqAppender[ZeroMQ/JeroMQ appender]::
+Forwards log events to a
+https://zeromq.org/[ZeroMQ] broker.
+
+See xref:manual/appenders/message-queue.adoc[] for details.
+
+[#ServletAppender]
+=== Servlet Appender
+
+The Servlet appender allows users to forward all logging calls to the
+https://jakarta.ee/specifications/servlet/5.0/apidocs/jakarta/servlet/servletcontext#log(java.lang.String,java.lang.Throwable)[`ServletContext.log()`]
+methods.
+
+[WARNING]
+====
+The `ServletContext.log(String, Throwable)` method predates modern logging APIs.
+By using Servlet appender, you typically will not be able to differentiate log events by log level or logger name.
+====
+
+The Servlet Appender has no configuration attributes.
+
+xref:plugin-reference.adoc#org-apache-logging-log4j_log4j-jakarta-web_org-apache-logging-log4j-web-appender-ServletAppender[{plugin-reference-marker} Plugin reference for `Servlet`]
+
+You can use it by declaring an appender of type `Servlet` in your configuration file:
+
+[tabs]
+====
+XML::
++
+[source,xml,indent=0]
+----
+include::example$manual/appenders/servlet-appender.xml[tag=servlet]
+----
+
+JSON::
++
+[source,xml,indent=0]
+----
+include::example$manual/appenders/servlet-appender.json[tag=servlet]
+----
+
+YAML::
++
+[source,xml,indent=0]
+----
+include::example$manual/appenders/servlet-appender.yaml[tag=servlet]
+----
+
+Properties::
++
+[source,xml,indent=0]
+----
+include::example$manual/appenders/servlet-appender.properties[tag=servlet]
+----
+====
+
+<1> Encodes events using xref:manual/pattern-layout.adoc[] and forwards the call to
+`ServletContext.log()`.
+Setting `alwaysWriteExceptions` to `false` prevents the stacktrace from appearing as both part of the `message` argument and as `throwable` argument:
+this usually results in the stacktrace being printed to the log file twice.
+
+Additional runtime dependencies are required for using the servlet appender:
+
+include::partial$features/servlet-support.adoc[]
+
+See xref:jakarta.adoc[] for more information.
+
+[#delegating-appenders]
+=== [[ScriptAppenderSelector]]Delegating appenders
+
+Delegating appenders are intended to decorate other appenders:
+
+[#AsyncAppender]
+xref:manual/appenders/delegating.adoc#AsyncAppender[Asynchronous appender]::
+Perform all I/O on a dedicated thread
+
+[#FailoverAppender]
+xref:manual/appenders/delegating.adoc#FailoverAppender[Failover appender]::
+Provide a backup appender in case an appender fails
+
+[#RewriteAppender]
+xref:manual/appenders/delegating.adoc#RewriteAppender[Rewrite appender]::
+Modify log events prior to delivering them to the target
+
+[#RoutingAppender]
+xref:manual/appenders/delegating.adoc#RoutingAppender[Routing appender]::
+Dynamically choose a different appender for each log event
+
+See xref:manual/appenders/delegating.adoc[] for details.
+
+[#extending]
+== Extending
+
+Appenders are xref:manual/plugins.adoc[plugins] implementing link:../javadoc/log4j-core/org/apache/logging/log4j/core/Appender.html[the `Appender` interface].
+This section will guide you on how to create custom ones.
+
+[WARNING]
+====
+*Implementing a reliable and efficient appender is a challenging task!*
+We strongly advise you to
+
+. Use existing appenders and/or managers whenever appropriate
+. Share your use case and ask for feedback in a {logging-services-url}/support.html[user support channel]
+====
+
+[#extending-plugins]
+=== Plugin preliminaries
+
+include::partial$manual/plugin-preliminaries.adoc[]
+
+[#extending-appenders]
+=== Extending appenders
+
+Appenders are xref:manual/plugins.adoc[plugins] implementing link:../javadoc/log4j-core/org/apache/logging/log4j/core/Appender.html[the `Appender` interface].
+We recommend users to extend from link:../javadoc/log4j-core/org/apache/logging/log4j/core/appender/AbstractAppender.html[`AbstractAppender`], which provides implementation convenience.
+While annotating your appender with `@Plugin`, you need to make sure that
+
+* It has a unique `name` attribute across all available `Appender` plugins
+* The `category` attribute is set to link:../javadoc/log4j-core/org/apache/logging/log4j/core/config/Node.html#CATEGORY[`Node.CATEGORY`]
+
+Most appender implementation use *managers*, which model an abstraction owning the resources, such as an `OutputStream` or a socket.
+When a reconfiguration occurs, a new appender will be created.
+However, if nothing significant in the previous manager has changed, the new appender will simply reference it instead of creating a new one.
+This ensures that events are not lost while a reconfiguration is taking place without requiring that logging pause while the reconfiguration takes place.
+You are strongly advised to study the manager concept in <<collection,the predefined appenders>>, and either use an existing manager, or create your own.
+
+You can check out the following files for examples:
+
+* {project-github-url}/log4j-core/src/main/java/org/apache/logging/log4j/core/appender/HttpAppender.java[`HttpAppender.java`] – xref:manual/appenders/network.adoc#HttpAppender[HttpAppender] sends log events over HTTP using `HttpURLConnectionManager`
+* {project-github-url}/log4j-core/src/main/java/org/apache/logging/log4j/core/appender/ConsoleAppender.java[`ConsoleAppender.java`] – <<ConsoleAppender>> writes log events to either `System.out` or `System.err` using `OutputStreamManager`

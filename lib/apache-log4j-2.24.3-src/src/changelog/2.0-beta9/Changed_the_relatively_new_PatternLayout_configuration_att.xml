@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="changed">
+  <description format="asciidoc">Changed the (relatively new) PatternLayout configuration attribute "suppressExceptions" to
+        "alwaysWriteExceptions" to more correctly indicate what it does. As such, the meaning of this attribute has
+        reversed (previous "true"s should become "false"s, and vice versa). Since this was an undocumented attribute up
+        until now, it's unlikely this change will affect any users.</description>
+</entry>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="fixed">
+  <issue id="LOG4J2-2564" link="https://issues.apache.org/jira/browse/LOG4J2-2564"/>
+  <description format="asciidoc">MapPatternConverter is properly created from the '%K', '%map', and '%MAP' patterns.
+        PatternConverter instanceOf methods with unknown parameter types no longer elide those with known parameters.</description>
+</entry>

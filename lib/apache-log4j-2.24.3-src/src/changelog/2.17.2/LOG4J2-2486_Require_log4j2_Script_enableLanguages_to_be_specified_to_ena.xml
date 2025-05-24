@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="added">
+  <issue id="LOG4J2-2486" link="https://issues.apache.org/jira/browse/LOG4J2-2486"/>
+  <description format="asciidoc">Require log4j2.Script.enableLanguages to be specified to enable scripting for specific languages.</description>
+</entry>

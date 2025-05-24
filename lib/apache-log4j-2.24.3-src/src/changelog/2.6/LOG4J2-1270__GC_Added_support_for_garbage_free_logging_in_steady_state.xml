@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="added">
+  <issue id="LOG4J2-1270" link="https://issues.apache.org/jira/browse/LOG4J2-1270"/>
+  <description format="asciidoc">(GC) Added support for garbage-free logging in steady state.
+        This includes Async Loggers and logging synchronously to the console and to a file,
+        but does not include the AsyncAppender. This release makes the GelfLayout and
+        the main patterns in the PatternLayout garbage-free.</description>
+</entry>

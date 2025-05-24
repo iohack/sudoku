@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="added">
+  <issue id="LOG4J2-519" link="https://issues.apache.org/jira/browse/LOG4J2-519"/>
+  <description format="asciidoc">Added support for generating custom logger wrappers that replace the existing log levels
+        and extended logger wrappers that add custom log levels to the existing ones.</description>
+</entry>

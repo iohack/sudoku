@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="changed">
+  <description format="asciidoc">- com.fasterxml.jackson.core:jackson-annotations ................. 2.12.1 -&gt; 2.12.2
+        - com.fasterxml.jackson.core:jackson-core ........................ 2.12.1 -&gt; 2.12.2
+        - com.fasterxml.jackson.core:jackson-databind .................... 2.12.1 -&gt; 2.12.2
+        - com.fasterxml.jackson.dataformat:jackson-dataformat-xml ........ 2.12.1 -&gt; 2.12.2
+        - com.fasterxml.jackson.dataformat:jackson-dataformat-yaml ....... 2.12.1 -&gt; 2.12.2
+        - com.fasterxml.jackson.module:jackson-module-jaxb-annotations ... 2.12.1 -&gt; 2.12.2
+        - org.apache.commons:commons-lang3 ............................... 3.11   -&gt; 3.12.0
+        - org.junit.jupiter:junit-jupiter-engine ......................... 5.7.0  -&gt; 5.7.1
+        - org.junit.jupiter:junit-jupiter-migrationsupport ............... 5.7.0  -&gt; 5.7.1
+        - org.junit.jupiter:junit-jupiter-params ......................... 5.7.0  -&gt; 5.7.1
+        - org.junit.vintage:junit-vintage-engine ......................... 5.7.0  -&gt; 5.7.1
+        - org.mockito:mockito-core ....................................... 3.7.7  -&gt; 3.8.0
+        - org.mockito:mockito-junit-jupiter .............................. 3.7.7  -&gt; 3.8.0
+        - org.mongodb:bson ............................................... 4.2.0  -&gt; 4.2.2
+        - org.mongodb:mongodb-driver-sync ................................ 4.2.0  -&gt; 4.2.2</description>
+</entry>

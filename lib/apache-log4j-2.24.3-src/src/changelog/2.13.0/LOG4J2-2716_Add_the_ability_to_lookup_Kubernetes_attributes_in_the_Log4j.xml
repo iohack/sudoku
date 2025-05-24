@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="added">
+  <issue id="LOG4J2-2716" link="https://issues.apache.org/jira/browse/LOG4J2-2716"/>
+  <description format="asciidoc">Add the ability to lookup Kubernetes attributes in the Log4j configuration. Allow Log4j properties to
+        be retrieved from the Spring environment if it is available.</description>
+</entry>

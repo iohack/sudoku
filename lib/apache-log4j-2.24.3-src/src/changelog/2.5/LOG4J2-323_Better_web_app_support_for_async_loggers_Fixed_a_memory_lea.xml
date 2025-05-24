@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="fixed">
+  <issue id="LOG4J2-323" link="https://issues.apache.org/jira/browse/LOG4J2-323"/>
+  <description format="asciidoc">Better web app support for async loggers: Fixed a memory leak that occurred when the logging jars are placed
+        in the container's classpath and the configuration file uses AsyncRoot/AsyncLogger.
+        The problem was that the first web application started the Disruptor background thread [AsyncLoggerConfig-1] but did not stop it until all web apps are stopped.
+        Each web application now has its own Disruptor which is stopped/started together with the web app.</description>
+</entry>

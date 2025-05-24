@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="fixed">
+  <issue id="1232" link="https://github.com/apache/logging-log4j2/issues/1232"/>
+  <description format="asciidoc">
+    Adapted the OSGi metadata of `log4j-to-slf4j` to work with SLF4J 1 and 2.
+    To achieve that used a version range of `[1.7,3)` for the imported SLF4J packages.
+  </description>
+</entry>

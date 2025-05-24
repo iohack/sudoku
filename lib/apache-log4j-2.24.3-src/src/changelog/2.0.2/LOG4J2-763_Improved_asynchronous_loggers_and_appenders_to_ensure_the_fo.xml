@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="fixed">
+  <issue id="LOG4J2-763" link="https://issues.apache.org/jira/browse/LOG4J2-763"/>
+  <description format="asciidoc">Improved asynchronous loggers and appenders to ensure the formatted message does not change even if
+        parameters are modified by the application. (ParameterizedMessage was already safe.)
+        Improved documentation.</description>
+</entry>

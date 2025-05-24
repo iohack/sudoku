@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="changed">
+  <issue id="LOG4J2-867" link="https://issues.apache.org/jira/browse/LOG4J2-867"/>
+  <description format="asciidoc">FlumeAppender: maxDelay not in seconds, but milliseconds.
+        Add time scale to some settings, for example maxDelayMillis instead of maxDelay.
+        The old names are aliased for compatibility.</description>
+</entry>

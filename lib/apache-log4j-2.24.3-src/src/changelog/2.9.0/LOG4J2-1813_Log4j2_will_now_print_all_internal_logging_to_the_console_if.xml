@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="added">
+  <issue id="LOG4J2-1813" link="https://issues.apache.org/jira/browse/LOG4J2-1813"/>
+  <description format="asciidoc">Log4j2 will now print all internal logging to the console if system property `log4j2.debug` is defined with any value (or no value).</description>
+</entry>

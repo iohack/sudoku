@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="changed">
+  <issue id="LOG4J2-270" link="https://issues.apache.org/jira/browse/LOG4J2-270"/>
+  <description format="asciidoc">Improved logging initialization in Servlet containers, especially Servlet 3.0 and newer where Log4j now
+        initializes and deinitializes automatically with no deployment descriptor configuration.</description>
+</entry>

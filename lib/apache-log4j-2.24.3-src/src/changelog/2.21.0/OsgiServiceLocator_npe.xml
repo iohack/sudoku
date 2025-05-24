@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="changed">
+  <description format="asciidoc">
+    Started logging a status error event instead of an NPE in
+    `OsgiServiceLocator.loadServices(Class, Lookup, boolean)`
+    when a bundle has no valid `BundleContext` for a service type
+  </description>
+</entry>

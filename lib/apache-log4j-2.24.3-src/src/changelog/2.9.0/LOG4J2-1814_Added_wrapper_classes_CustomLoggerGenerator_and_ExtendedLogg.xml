@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="added">
+  <issue id="LOG4J2-1814" link="https://issues.apache.org/jira/browse/LOG4J2-1814"/>
+  <description format="asciidoc">Added wrapper classes CustomLoggerGenerator and ExtendedLoggerGenerator to avoid class name with a dollar ($) character which has special meaning in many *nix command line environments.</description>
+</entry>

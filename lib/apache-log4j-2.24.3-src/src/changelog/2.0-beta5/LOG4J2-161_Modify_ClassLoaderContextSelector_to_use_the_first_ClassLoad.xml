@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="fixed">
+  <issue id="LOG4J2-161" link="https://issues.apache.org/jira/browse/LOG4J2-161"/>
+  <description format="asciidoc">Modify ClassLoaderContextSelector to use the first ClassLoader in the child parent hierarchy that
+        has a Context with a configuration to allow JSPs to use the WebApp's context and configuration.</description>
+</entry>

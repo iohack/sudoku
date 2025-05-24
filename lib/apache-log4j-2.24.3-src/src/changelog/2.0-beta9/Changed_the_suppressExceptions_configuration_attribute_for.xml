@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="changed">
+  <description format="asciidoc">Changed the "suppressExceptions" configuration attribute for all Appenders to "ignoreExceptions" to avoid
+        confusion with Java 7 suppressed exceptions. Also renamed the Appender#isExceptionSuppressed() method to
+        Appender#ignoreExceptions() to avoid the same confusion. All Appenders by default internally log and then ignore
+        exceptions encountered while logging. Setting "ignoreExceptions" to "false" on an Appender causes it to allow
+        exceptions to propagate to the caller. You must set "ignoreExceptions" to "false" for Appenders you are wrapping
+        in the Failover Appender.</description>
+</entry>

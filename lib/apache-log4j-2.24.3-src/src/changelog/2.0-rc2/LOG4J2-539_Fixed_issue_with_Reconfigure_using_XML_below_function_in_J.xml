@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="https://logging.apache.org/xml/ns"
+       xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-changelog-0.xsd"
+       type="fixed">
+  <issue id="LOG4J2-539" link="https://issues.apache.org/jira/browse/LOG4J2-539"/>
+  <description format="asciidoc">Fixed issue with "Reconfigure using XML below" function in JMX Client GUI.
+        ConfigurationSource is now a top-level class and can be obtained with Configuration.getConfigurationSource().
+        LoggerContext.getConfiguration().getConfigurationSource()
+        provides a reliable public method for obtaining a logger context's configuration location and content.</description>
+</entry>

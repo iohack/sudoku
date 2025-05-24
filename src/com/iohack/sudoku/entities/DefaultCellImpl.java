@@ -103,7 +103,7 @@ public class DefaultCellImpl implements Serializable, ICell {
         return list;
 	}
 	
-	// TODO DEBUG
+	/* TODO DEBUG V00.00.00
 	private String cellToString() {
 		List<Integer> list = cellsAsList();
 		StringBuilder sb=new StringBuilder("[empty="+empty+", value="+value+", maxCandidateCells=" + maxCandidateCells+ ", cells=");
@@ -113,9 +113,10 @@ public class DefaultCellImpl implements Serializable, ICell {
 		return sb.toString();
 	}
 	
-	// TODO DEBUG
+	// TODO DEBUG V00.00.00
 	public static void main(String [] args) {
 		DefaultCellImpl cell = new DefaultCellImpl(9);
 		System.out.println(cell.cellToString());
 	}
+	*/
 }

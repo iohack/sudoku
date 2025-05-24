@@ -1,14 +1,14 @@
 /**
  * 
  */
-package com.devnull.sudoku.entities.tests;
+package com.iohack.sudoku.entities.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import com.devnull.sudoku.entities.DefaultCellImpl;
+import com.iohack.sudoku.entities.DefaultCellImpl;
 
 /**
  * Tests unitaires sur la classe DefaultCell.
@@ -22,7 +22,7 @@ class DefaultCellTest {
 	public static final int CELL_COUNT_50 = 50;
 			
 	/**
-	 * Test method for {@link com.devnull.sudoku.entities.DefaultCellImpl#DefaultCellImpl(int)}.
+	 * Test method for {@link com.iohack.sudoku.entities.DefaultCellImpl#DefaultCellImpl(int)}.
 	 */
 	@Test
 	void testDefaultCellImpl() {
@@ -30,7 +30,7 @@ class DefaultCellTest {
 	}
 
 	/**
-	 * Test method for {@link com.devnull.sudoku.entities.DefaultCellImpl#isEmpty()}.
+	 * Test method for {@link com.iohack.sudoku.entities.DefaultCellImpl#isEmpty()}.
 	 */
 	@Test
 	void testIsEmpty() {
@@ -38,7 +38,7 @@ class DefaultCellTest {
 	}
 
 	/**
-	 * Test method for {@link com.devnull.sudoku.entities.DefaultCellImpl#addCandidateValue(int)}.
+	 * Test method for {@link com.iohack.sudoku.entities.DefaultCellImpl#addCandidateValue(int)}.
 	 */
 	@Test
 	void testAddCandidateValueWithGood8parameter() {
@@ -46,7 +46,7 @@ class DefaultCellTest {
 	}
 
 	/**
-	 * Test method for {@link com.devnull.sudoku.entities.DefaultCellImpl#removeCandidateValue(int)}.
+	 * Test method for {@link com.iohack.sudoku.entities.DefaultCellImpl#removeCandidateValue(int)}.
 	 */
 	@Test
 	void testRemoveCandidateValue() {
@@ -54,7 +54,7 @@ class DefaultCellTest {
 	}
 
 	/**
-	 * Test method for {@link com.devnull.sudoku.entities.DefaultCellImpl#contains(int)}.
+	 * Test method for {@link com.iohack.sudoku.entities.DefaultCellImpl#contains(int)}.
 	 */
 	@Test
 	void testContains() {
@@ -62,7 +62,7 @@ class DefaultCellTest {
 	}
 
 	/**
-	 * Test method for {@link com.devnull.sudoku.entities.DefaultCellImpl#getCellCount()}.
+	 * Test method for {@link com.iohack.sudoku.entities.DefaultCellImpl#getCellCount()}.
 	 */
 	@Test
 	void testGetCellCount() {
@@ -70,7 +70,7 @@ class DefaultCellTest {
 	}
 
 	/**
-	 * Test method for {@link com.devnull.sudoku.entities.DefaultCellImpl#cellsAsList()}.
+	 * Test method for {@link com.iohack.sudoku.entities.DefaultCellImpl#cellsAsList()}.
 	 */
 	@Test
 	void testCellsAsList() {

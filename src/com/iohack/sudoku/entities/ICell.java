@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.devnull.sudoku.entities;
+package com.iohack.sudoku.entities;
 
 import java.io.Serializable;
 import java.util.List;

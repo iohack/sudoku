@@ -1,24 +1,33 @@
 /**
  * 
  */
-package com.devnull.sudoku.entities;
+package com.iohack.sudoku.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Date;
 import java.util.List;
 
-/**
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+/** 
  * Représentation logique constituée de sa valeur, le fait d'être vide 
  * ou pas et la liste des valeurs de cellules éligibles.
  * TODO reporter doc
  */
 public class DefaultCellImpl implements Serializable, ICell {
-	public static final Logger logger.
 	/**
 	 * ID.
 	 */
 	private static final long serialVersionUID = -1886574328413537104L;
+	
+	
+	/**
+	 * Journaux d'exécution.  
+	 */
+	private static final Logger LOGGER = LogManager.getLogger();
 
 	/**
 	 * La cellule est vide ou remplie ?
@@ -54,6 +63,8 @@ public class DefaultCellImpl implements Serializable, ICell {
 		
 		// Activation de tous les bits.
 		candidateCells.set(0,maxCandidateCells);
+		LOGGER.warn(new Date() + " DefaultCellImpl créé");
+		
 	}
 	
 	

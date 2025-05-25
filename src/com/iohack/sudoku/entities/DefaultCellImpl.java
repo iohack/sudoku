@@ -15,7 +15,6 @@ import org.apache.logging.log4j.Logger;
 /** 
  * Représentation logique constituée de sa valeur, le fait d'être vide 
  * ou pas et la liste des valeurs de cellules éligibles.
- * TODO reporter doc
  */
 public class DefaultCellImpl implements Serializable, ICell {
 	/**
@@ -57,7 +56,7 @@ public class DefaultCellImpl implements Serializable, ICell {
 	public DefaultCellImpl(final int pMaxCandidates) {
 		// Initialisation des attributs.
 		empty = true;		
-		value=0;
+		setValue(0);
 		maxCandidateCells = pMaxCandidates;
 		candidateCells = new BitSet(maxCandidateCells);
 		
@@ -102,21 +101,22 @@ public class DefaultCellImpl implements Serializable, ICell {
         }
         return list;
 	}
-	
-	/* TODO DEBUG V00.00.00
-	private String cellToString() {
-		List<Integer> list = cellsAsList();
-		StringBuilder sb=new StringBuilder("[empty="+empty+", value="+value+", maxCandidateCells=" + maxCandidateCells+ ", cells=");
-		for(Integer i : list) {
-			sb.append(i+",]");
-		}
-		return sb.toString();
+
+
+
+	/**
+	 * Getter.
+	 * @return Valeur de la cellule.
+	 */
+	public final Integer getValue() {
+		return value;
 	}
-	
-	// TODO DEBUG V00.00.00
-	public static void main(String [] args) {
-		DefaultCellImpl cell = new DefaultCellImpl(9);
-		System.out.println(cell.cellToString());
-	}
-	*/
+
+	/**
+	 * Setter.
+	 * @param value Valeur de la cellule.
+	 */
+	public void setValue(Integer value) {
+		this.value = value;
+	}	
 }

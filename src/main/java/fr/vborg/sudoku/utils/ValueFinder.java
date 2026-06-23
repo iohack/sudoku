@@ -3,7 +3,7 @@ package fr.vborg.sudoku.utils;
 import java.util.Objects;
 
 /**
- * Utility class based on grid values processing.
+ * Utility class based on grid values process
  */
 public final class ValueFinder {
 	private ValueFinder()

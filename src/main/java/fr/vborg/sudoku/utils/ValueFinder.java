@@ -34,5 +34,28 @@ public final class ValueFinder {
 			}
 		}
 		return null;
-	}	 
+	}
+	
+	
+	/**
+	 * Counts how many times a given value appears in the grid.
+	 *
+	 * @param grid the 2D array to search (must not be null)
+	 * @param value the value to count
+	 * @return the number of occurrences of the value in the grid
+	 * @throws NullPointerException if grid is null
+	 */
+	public static int countValue(int[][] grid, int value)
+	{
+		Objects.requireNonNull(grid, "grid");
+		int count = 0;
+		for (int[] row : grid) {
+			for (int cell : row) {
+				if (cell == value) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
 }

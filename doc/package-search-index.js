@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"fr.vborg.sudoku.utils"},{"l":"sudoku"}];updateSearchResults();

@@ -1,4 +1,4 @@
-package fr.vborg.sudoku.utils;
+package fr.vborg.sudoku.model;
 
 import java.util.Objects;
 

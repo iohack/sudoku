@@ -19,51 +19,65 @@ package fr.vborg.sudoku.model;
  */
 public class Grid {
 	/**
-	 * Zero means an empty grid value.
+	 * Represents an empty cell.
+	 *
+	 * Any value different from {@code EMPTY}
+	 * is considered as entered in the grid.
 	 */
 	public static final int EMPTY = 0;
 	
 	/**
-	 * This is the technical minimum grid size for the Sudoku game. 
+	 * Minimum supported Sudoku grid size. 
 	 */
 	public static final int MIN_SIZE = 4;
 	
 	/**
-	 * Size of grid.
-	 * It means number of rows, columns and boxes. 
+	 * Grid size (number of rows, columns and boxes).
 	 */
 	private final int size;
 	
 	/**
-	 * The user values generated or entered by the user.
+	 * Boxes (sub-grid) size (square root of grid size).
+	 */
+	private final int boxSize;
+	
+	/**
+	 * Values stored in the grid.
 	 */
 	private final int[][] values;
 	
 	/**
-	 * Create the internal grid model based on its size.
-	 * <p>
-	 * 	Because of Sudoku technical rule, its grid size must
-	 * greater or equal to 4, otherwise an IllegalArgumentException
-	 * is raised.
-	 * @param pSize Grid size.
+	 * Creates an empty Sudoku grid.
+	 *
+	 * <p>The size must be greater than or equal to {@link #MIN_SIZE}
+	 * and must be a perfect square (4, 9, 16...). This constraint
+	 * ensures that the grid can be divided into equally sized boxes.</p>
+	 *
+	 * @param size the grid size
+	 * @throws IllegalArgumentException the size is invalid
 	 */
-	public Grid(int pSize)
+	public Grid(final int size)
 	{
-		if(pSize < MIN_SIZE)
+		if(size < MIN_SIZE)
 		{
-			throw new IllegalArgumentException("Size out of range (<" + MIN_SIZE + ") : " + pSize);
+			throw new IllegalArgumentException("Size out of range (<" + MIN_SIZE + ") : " + size);
 		}
-		this.size = pSize;
-		if( Math.sqrt(size) % 1 != 0 )
+		final int computedBoxSize = (int) Math.sqrt(size);
+		if (computedBoxSize * computedBoxSize != size)
 		{
-			throw new IllegalArgumentException("Size must be a perfect square : " + size);
+		    throw new IllegalArgumentException(
+		        "Size must be a perfect square: " + size);
 		}
-		this.values = new int[size][size];
+
+		boxSize = computedBoxSize;
+		this.size = size;
+		
+		values = new int[this.size][this.size];		
 	}
 	
 	/**
-	 * Size grid (number of rows, columns and boxes)
-	 * @return Size
+	 * Returns the grid size.
+	 * @return the grid size
 	 */
 	public int getSize()
 	{
@@ -71,62 +85,63 @@ public class Grid {
 	}
 	
 	/**
-	 * Value at specified row and column indexes.
+	 * Returns the value at the specified row and column.
 	 * <p>
 	 * Indexes can not be negative nor greater than their
 	 * maximum value ({@code size-1})
 	 * </p>
 	 * 
-	 * @param rowIdx Row index
-	 * @param colIdx Column index
-	 * @return Value
+	 * @param rowIndex the row index
+	 * @param columnIndex the column index
+	 * @return the value stored in the specified cell
 	 */
-	public int getValue(int rowIdx, int colIdx)
+	public int getValue(final int rowIndex, final int columnIndex)
 	{
-		validateIndex(rowIdx);
-		validateIndex(colIdx);
-		return this.values[rowIdx][colIdx];
+		validateIndex(rowIndex);
+		validateIndex(columnIndex);
+		return values[rowIndex][columnIndex];
 	}
 	
 	/**
-	 * Affect or replace a value at specified row and column indexes.
+	 * Sets or replaces the value at the specified cell.
 	 * <p>
 	 * Validation is performed on the cell coordinates and the value range.<br>
 	 * Note : you can also use this method to clear a cell by passing 
 	 * {@link #EMPTY} as a value.
 	 * </p>
 	 * 
-	 * @param value Value to affect or replace
-	 * @param rowIdx Row index
-	 * @param colIdx Column index
+	 * @param value the value to affect or replace
+	 * @param rowIndex the row index
+	 * @param columnIndex the column index
 	 */
-	public void setValue(int value, int rowIdx, int colIdx)
+	public void setValue(final int value, final int rowIndex, final int columnIndex)
 	{
-		validateIndex(rowIdx);
-		validateIndex(colIdx);
+		validateIndex(rowIndex);
+		validateIndex(columnIndex);
 		validateValue(value);
-		this.values[rowIdx][colIdx] = value;
+		values[rowIndex][columnIndex] = value;
 	}
 	
 	
 	/**
-	 * Asserts that the specified index is within the valid grid bounds.
-	 * @param index Index to validate
+	 * Validates that the value is within the allowed range.
+	 * @param index the index to validate
 	 */
-	private void validateIndex(int index)
+	private void validateIndex(final int index)
 	{
-		if( index < EMPTY || index >= size )
+		if( index < 0 || index >= size )
 		{
-			throw new IllegalArgumentException("Index out of range [" + EMPTY + "-" + (size - 1) + "] : " + index);
+			throw new IndexOutOfBoundsException("Index " + index + " is out of bounds [0.." + (size - 1) + "]");
 		}
 	}
 	
 	
 	/**
-	 * Asserts the value parameter is between the range [EMPTY-size].
-	 * @param value Value to validate
+	 * Validates that the value is within the allowed range.
+	 *
+	 * @param value the value to validate
 	 */
-	private void validateValue(int value)
+	private void validateValue(final int value)
 	{
 		if( value < EMPTY || value > size )
 		{
@@ -135,25 +150,110 @@ public class Grid {
 	}
 		
 	/**
-	 * Test if a grid value is empty. See {@link Grid#EMPTY}.
-	 * @param rowIdx Row index
-	 * @param colIdx Column index
+	 * Returns whether the specified cell is empty.
+	 * @param rowIndex Row index
+	 * @param columnIndex Column index
 	 * @return {@code true} if empty, {@code false} otherwise
 	 */
-	public boolean isEmpty(int rowIdx, int colIdx)
+	public boolean isEmpty(final int rowIndex, final int columnIndex)
 	{
-		return getValue(rowIdx, colIdx) == EMPTY;
+		return getValue(rowIndex, columnIndex) == EMPTY;
 	}
 	
 	/**
-	 * Empty a grid value.
-	 * @param rowIdx Row index
-	 * @param colIdx Column index
+	 * Clears the specified cell.
+	 *
+ 	 * <p>The cell value becomes {@link #EMPTY}.</p>
+ 	 *
+	 * @param rowIndex Row index
+	 * @param columnIndex Column index
 	 */
-	public void clear(int rowIdx, int colIdx)
+	public void clear(final int rowIndex, final int columnIndex)
 	{
-		validateIndex(rowIdx);
-		validateIndex(colIdx);
-		this.values[rowIdx][colIdx] = EMPTY;
-	}	
+		setValue(EMPTY, rowIndex, columnIndex);
+	}
+	
+	/**
+	 * Returns a copy of the row at the specified index.
+	 *
+	 * <p>The returned array is independent from the internal
+	 * grid representation. Modifying it does not affect the grid.</p>
+	 *
+	 * @param rowIndex Row index
+	 * @return a copy of the row values
+	 * @throws IndexOutOfBoundsException If the index is invalid
+	 */
+	public int[] getRow(final int rowIndex)
+	{
+		validateIndex(rowIndex);
+		
+		return values[rowIndex].clone();
+	}
+	
+	/**
+	 * Returns a copy of the box at the specified index.
+	 *
+	 * <p>Boxes are numbered from left to right and top to bottom.</p>
+	 *
+	 * <pre>
+	 * +---+---+---+
+	 * | 0 | 1 | 2 |
+	 * +---+---+---+
+	 * | 3 | 4 | 5 |
+	 * +---+---+---+
+	 * | 6 | 7 | 8 |
+	 * +---+---+---+
+	 * </pre>
+	 *
+	 * <p>The returned array contains the box values in row-major order.</p>
+	 *
+	 * @param boxIndex box index
+	 * @return a copy of the box values
+	 * @throws IndexOutOfBoundsException if the index is invalid
+	 */
+	public int[] getBox(final int boxIndex)
+	{
+	    validateIndex(boxIndex);
+
+	    final int[] box = new int[size];
+
+	    final int startRow = (boxIndex / boxSize) * boxSize;
+	    final int startColumn = (boxIndex % boxSize) * boxSize;
+
+	    int index = 0;
+
+	    for (int row = 0; row < boxSize; row++) 
+	    {
+	        for (int column = 0; column < boxSize; column++) 
+	        {
+	            box[index++] = values[startRow + row][startColumn + column];
+	        }
+	    }
+
+	    return box;
+	}
+	
+	/**
+	 * Returns a copy of the column at the specified index.
+	 *
+	 * <p>The returned array is independent from the internal
+	 * grid representation. Modifying it does not affect the grid.</p>
+	 *
+	 * @param columnIndex Column index
+	 * @return a copy of the column values
+	 * @throws IndexOutOfBoundsException if the index is invalid
+	 */
+	public int[] getColumn(final int columnIndex)
+	{
+		validateIndex(columnIndex);
+		
+		final int[] column = new int[size];
+		
+		for(int rowIndex = 0; rowIndex < size; rowIndex++)
+		{
+			column[rowIndex] = values[rowIndex][columnIndex];
+		}
+		
+		return column;
+	}
 }

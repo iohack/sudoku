@@ -60,17 +60,7 @@ class GridTest {
             Grid grid = new Grid(16);
 
             assertEquals(16, grid.getSize());
-        }
-        
-        @Test
-        void should_return_center_box_in_standard_grid()
-        {
-            Grid grid = new Grid(9);
-
-            grid.setValue(5, 4, 4);
-
-            assertEquals(5, grid.getBox(4)[4]);
-        }
+        }           
     }
 
     // =========================================================
@@ -84,7 +74,7 @@ class GridTest {
             Grid grid = new Grid(9);
 
             for (int i = 0; i < grid.getSize(); i++) {
-                for (int j = 0; j < grid.getSize(); j++) {
+                for (int j = 0;  j < grid.getSize(); j++) {
                     assertEquals(Grid.EMPTY, grid.getValue(i, j));
                 }
             }
@@ -281,147 +271,169 @@ class GridTest {
             assertEquals(8, grid.getValue(2, 2));
         }
     }
-    @Test
-    void should_return_row_values() 
+    
+    
+
+    
+    @Nested
+    class GetColumnTests
     {
-        Grid grid = new Grid(4);
+    	@Test
+    	void should_return_column_values() 
+    	{
+    		Grid grid = new Grid(4);
 
-        grid.setValue(1, 2, 0);
-        grid.setValue(2, 2, 1);
-        grid.setValue(3, 2, 2);
-        grid.setValue(4, 2, 3);
+    		grid.setValue(1, 0, 2);
+    		grid.setValue(2, 1, 2);
+    		grid.setValue(3, 2, 2);
+    		grid.setValue(4, 3, 2);
 
-        assertArrayEquals(
-                new int[] {1, 2, 3, 4},
-                grid.getRow(2));
-    }
+    		assertArrayEquals(
+    				new int[] {1, 2, 3, 4},
+    				grid.getColumn(2));
+    	}
 
-    @Test
-    void returned_row_should_be_a_copy() 
-    {
-        Grid grid = new Grid(4);
+    	@Test
+    	void returned_column_should_be_a_copy() 
+    	{
+    		Grid grid = new Grid(4);
 
-        int[] row = grid.getRow(0);
-        row[0] = 99;
+    		int[] column = grid.getColumn(0);
 
-        assertEquals(Grid.EMPTY, grid.getValue(0, 0));
+    		column[0] = 42;
+
+    		assertEquals(Grid.EMPTY, grid.getValue(0, 0));
+    	}
+
+    	@Test
+    	void should_throw_exception_for_invalid_column() 
+    	{
+    		Grid grid = new Grid(4);
+
+    		assertThrows(IndexOutOfBoundsException.class,
+    				() -> grid.getColumn(-1));
+
+    		assertThrows(IndexOutOfBoundsException.class,
+    				() -> grid.getColumn(4));
+    	}
     }
     
-    @Test
-    void should_throw_exception_for_invalid_row() 
-    {
-        Grid grid = new Grid(4);
+    @Nested
+    class GetBoxTests{
+    	@Test
+    	void should_return_first_box() 
+    	{
+    		Grid grid = new Grid(4);
 
-        assertThrows(IndexOutOfBoundsException.class,
-                () -> grid.getRow(-1));
+    		grid.setValue(1,0,0);
+    		grid.setValue(2,0,1);
+    		grid.setValue(3,1,0);
+    		grid.setValue(4,1,1);
 
-        assertThrows(IndexOutOfBoundsException.class,
-                () -> grid.getRow(4));
+    		assertArrayEquals(
+    				new int[] {1, 2, 3, 4},
+    				grid.getBox(0));
+    	}
+
+    	@Test
+    	void should_return_last_box() 
+    	{
+    		Grid grid = new Grid(4);
+
+    		grid.setValue(1,2,2);
+    		grid.setValue(2,2,3);
+    		grid.setValue(3,3,2);
+    		grid.setValue(4,3,3);
+
+    		assertArrayEquals(
+    				new int[] {1, 2, 3, 4},
+    				grid.getBox(3));
+    	}
+
+    	@Test
+    	void returned_box_should_be_a_copy() 
+    	{
+    		Grid grid = new Grid(4);
+
+    		int[] box = grid.getBox(0);
+
+    		box[0] = 99;
+
+    		assertEquals(Grid.EMPTY, grid.getValue(0, 0));
+    	}
+
+    	@Test
+    	void should_throw_exception_for_invalid_box() 
+    	{
+    		Grid grid = new Grid(4);
+
+    		assertThrows(IndexOutOfBoundsException.class,
+    				() -> grid.getBox(-1));
+
+    		assertThrows(IndexOutOfBoundsException.class,
+    				() -> grid.getBox(4));
+    	}
+    	@Test
+        void should_return_center_box_in_standard_grid()
+        {
+            Grid grid = new Grid(9);
+
+            grid.setValue(5, 4, 4);
+
+            assertEquals(5, grid.getBox(4)[4]);
+        }
     }
     
-    @Test
-    void should_return_column_values() 
+    @Nested
+    class GetRowTests
     {
-        Grid grid = new Grid(4);
+    	@Test
+        void returned_row_modification_should_not_modify_grid()
+        {
+            Grid grid = new Grid(4);
 
-        grid.setValue(1, 0, 2);
-        grid.setValue(2, 1, 2);
-        grid.setValue(3, 2, 2);
-        grid.setValue(4, 3, 2);
+            grid.setValue(4, 0, 0);
 
-        assertArrayEquals(
-                new int[] {1, 2, 3, 4},
-                grid.getColumn(2));
-    }
+            int[] row = grid.getRow(0);
+            row[0] = 99;
 
-    @Test
-    void returned_column_should_be_a_copy() 
-    {
-        Grid grid = new Grid(4);
+            assertEquals(4, grid.getValue(0, 0));
+        }
+    	@Test
+        void returned_row_should_be_a_copy() 
+        {
+            Grid grid = new Grid(4);
 
-        int[] column = grid.getColumn(0);
+            int[] row = grid.getRow(0);
+            row[0] = 99;
 
-        column[0] = 42;
+            assertEquals(Grid.EMPTY, grid.getValue(0, 0));
+        }
+        
+        @Test
+        void should_throw_exception_for_invalid_row() 
+        {
+            Grid grid = new Grid(4);
 
-        assertEquals(Grid.EMPTY, grid.getValue(0, 0));
-    }
+            assertThrows(IndexOutOfBoundsException.class,
+                    () -> grid.getRow(-1));
 
-    @Test
-    void should_throw_exception_for_invalid_column() 
-    {
-        Grid grid = new Grid(4);
+            assertThrows(IndexOutOfBoundsException.class,
+                    () -> grid.getRow(4));
+        }
+        @Test
+        void should_return_row_values() 
+        {
+            Grid grid = new Grid(4);
 
-        assertThrows(IndexOutOfBoundsException.class,
-                () -> grid.getColumn(-1));
+            grid.setValue(1, 2, 0);
+            grid.setValue(2, 2, 1);
+            grid.setValue(3, 2, 2);
+            grid.setValue(4, 2, 3);
 
-        assertThrows(IndexOutOfBoundsException.class,
-                () -> grid.getColumn(4));
-    }
-    
-    @Test
-    void should_return_first_box() 
-    {
-        Grid grid = new Grid(4);
-
-        grid.setValue(1,0,0);
-        grid.setValue(2,0,1);
-        grid.setValue(3,1,0);
-        grid.setValue(4,1,1);
-
-        assertArrayEquals(
-                new int[] {1, 2, 3, 4},
-                grid.getBox(0));
-    }
-
-    @Test
-    void should_return_last_box() 
-    {
-        Grid grid = new Grid(4);
-
-        grid.setValue(1,2,2);
-        grid.setValue(2,2,3);
-        grid.setValue(3,3,2);
-        grid.setValue(4,3,3);
-
-        assertArrayEquals(
-                new int[] {1, 2, 3, 4},
-                grid.getBox(3));
-    }
-
-    @Test
-    void returned_box_should_be_a_copy() 
-    {
-        Grid grid = new Grid(4);
-
-        int[] box = grid.getBox(0);
-
-        box[0] = 99;
-
-        assertEquals(Grid.EMPTY, grid.getValue(0, 0));
-    }
-
-    @Test
-    void should_throw_exception_for_invalid_box() 
-    {
-        Grid grid = new Grid(4);
-
-        assertThrows(IndexOutOfBoundsException.class,
-                () -> grid.getBox(-1));
-
-        assertThrows(IndexOutOfBoundsException.class,
-                () -> grid.getBox(4));
-    }
-    
-    @Test
-    void returned_row_modification_should_not_modify_grid()
-    {
-        Grid grid = new Grid(4);
-
-        grid.setValue(4, 0, 0);
-
-        int[] row = grid.getRow(0);
-        row[0] = 99;
-
-        assertEquals(4, grid.getValue(0, 0));
-    }
+            assertArrayEquals(
+                    new int[] {1, 2, 3, 4},
+                    grid.getRow(2));
+        }
+    }    
 }

@@ -84,6 +84,11 @@ public class Grid {
 		return size;
 	}
 	
+	public int getBoxSize()
+	{
+		return boxSize;
+	}
+	
 	/**
 	 * Returns the value at the specified row and column.
 	 * <p>

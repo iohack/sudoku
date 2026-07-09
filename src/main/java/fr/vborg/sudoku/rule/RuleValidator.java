@@ -7,7 +7,7 @@ import fr.vborg.sudoku.model.Grid;
 import fr.vborg.sudoku.model.RuleException;
 
 /**
- * Validates that the specified value can be placed at the given location.
+ * Validates that the specified values respect the Sudoku rules.
  *
  * @since 1.0
  */
@@ -16,10 +16,9 @@ public interface RuleValidator {
 	 * Raise an exception if an implementation class find an
 	 * error with this method parameters.
      * @param grid The source grid values
-     * @param value Value to validate
      * @param rowIdx Row index
      * @param colIdx Column index
      * @throws RuleException if a rule is violated
      */
-    void validate(final Grid grid, int value, int rowIdx, int colIdx) throws RuleException;
+    void validate(final Grid grid, int rowIdx, int colIdx) throws RuleException;
 }

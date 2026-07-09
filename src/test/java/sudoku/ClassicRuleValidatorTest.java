@@ -67,19 +67,57 @@ class ClassicRuleValidatorTest
 	    @Test
 	    void should_throw_when_column_contains_duplicate()
 	    {
-	    	// TODO
+	    	Grid grid = new Grid(9);
+
+	        grid.setValue(5, 0, 0);
+	        grid.setValue(3, 1, 0);
+	        grid.setValue(7, 2, 0);
+
+	        // Duplicate value 7 in column 0
+	        grid.setValue(7, 3, 0);
+
+	        RuleException ruleException = assertThrows(
+	                RuleException.class,
+	                () -> validator.validate(grid, 3, 0)
+	        );
+
+	        assertEquals(
+	                "Duplicate value 7 in column 1.",
+	                ruleException.getMessage()
+	        );
 	    }
 
 	    @Test
 	    void should_throw_when_box_contains_duplicate()
 	    {
-	    	// TODO
+	    	 Grid grid = new Grid(9);
+
+	    	 grid.setValue(5, 0, 0);
+	    	    grid.setValue(3, 0, 1);
+	    	    grid.setValue(7, 1, 0);
+
+	    	    // Duplicate value 7 in the same box,
+	    	    // but not in the same row or column
+	    	    grid.setValue(7, 2, 1);
+
+	    	    RuleException ruleException = assertThrows(
+	    	            RuleException.class,
+	    	            () -> validator.validate(grid, 1, 1)
+	    	    );
+
+	    	    assertEquals(
+	    	            "Duplicate value 7 in box 1.",
+	    	            ruleException.getMessage()
+	    	    );
 	    }
 
 	    @Test
 	    void should_throw_when_grid_is_null()
 	    {
-	    	// TODO
+	    	assertThrows(
+	    			NullPointerException.class,
+	                () -> validator.validate(null, 0, 0)
+	        );
 	    }
 	}
 }

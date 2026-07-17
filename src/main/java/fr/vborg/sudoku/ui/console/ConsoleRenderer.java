@@ -3,6 +3,9 @@
  */
 package fr.vborg.sudoku.ui.console;
 
+import fr.vborg.sudoku.game.SudokuGame;
+import fr.vborg.sudoku.model.Grid;
+
 /**
  * Renders a Sudoku game in the console.
  * <p>

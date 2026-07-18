@@ -1,11 +1,10 @@
 /**
  * 
  */
-package sudoku;
+package fr.vborg.sudoku.ui.console;
 
 import fr.vborg.sudoku.game.SudokuGame;
 import fr.vborg.sudoku.model.RuleException;
-import fr.vborg.sudoku.ui.console.ConsoleRenderer;
 
 /**
  * Demonstrates the console rendering of a Sudoku grid.

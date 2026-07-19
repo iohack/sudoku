@@ -285,6 +285,5 @@ public class Grid {
 			}
 		}
 		return true;
-	}
-	
+	}	
 }

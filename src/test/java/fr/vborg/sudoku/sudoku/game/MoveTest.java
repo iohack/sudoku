@@ -24,7 +24,7 @@ class MoveTest
     {
         Messages.setLocale(Locale.FRENCH);
 
-        Move move = new Move(1, 2, 3);
+        Move move = new Move(0, 1, 3);
 
         assertEquals(
                 "Coup[ligne=1, colonne=2, valeur=3]",
@@ -37,7 +37,7 @@ class MoveTest
     {
         Messages.setLocale(Locale.ENGLISH);
 
-        Move move = new Move(1, 2, 3);
+        Move move = new Move(0, 1, 3);
 
         assertEquals(
                 "Move[row=1, column=2, value=3]",

@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Scanner;
 
 import fr.vborg.sudoku.game.Move;
+import fr.vborg.sudoku.localization.Messages;
 
 /**
  * Reads user input from the console.
@@ -15,9 +16,27 @@ import fr.vborg.sudoku.game.Move;
  */
 public final class ConsoleInput
 {
-    private static final String QUIT_COMMAND =
+	/**
+	 * Command used to quit the current game.
+	 */
+	private static final String QUIT_COMMAND =
             "quit";
+    
+    /**
+     * Token string separator.
+     */
+    private static final String TOKEN_SEPARATOR =
+            "\\s+";
+    
+    /**
+     * Token count needed to do a move.
+     */
+    private static final int MOVE_TOKEN_COUNT =
+            3;
 
+    /**
+     * Input scanner.
+     */
     private final Scanner scanner;
 
 
@@ -35,12 +54,15 @@ public final class ConsoleInput
      */
     public int readGridSize()
     {
-        String input =
-                scanner.nextLine().trim();
+        String input = readLine();
 
         return Integer.parseInt(input);
     }
 
+    private String readLine()
+    {
+    	return scanner.nextLine().trim();
+    }
 
     /**
      * Reads a move.
@@ -49,8 +71,7 @@ public final class ConsoleInput
      */
     public Move readMove()
     {
-        String input =
-                scanner.nextLine().trim();
+        String input = readLine();
 
         if (QUIT_COMMAND.equalsIgnoreCase(input))
         {
@@ -58,17 +79,26 @@ public final class ConsoleInput
         }
 
         String[] tokens =
-                input.split("\\s+");
+                input.split(TOKEN_SEPARATOR);
 
-        if (tokens.length != 3)
+        if (tokens.length != MOVE_TOKEN_COUNT)
         {
             throw new IllegalArgumentException(
-                    "Invalid move");
+            		Messages.get("console.invalid"));
         }
 
-        return new Move(
-                Integer.parseInt(tokens[0]) - 1 ,
-                Integer.parseInt(tokens[1]) - 1 ,
-                Integer.parseInt(tokens[2]));
+        try
+        {
+        	return new Move(
+        			Integer.parseInt(tokens[0]) - 1 ,
+        			Integer.parseInt(tokens[1]) - 1 ,
+        			Integer.parseInt(tokens[2]));
+        }
+        catch (NumberFormatException exception)
+        {
+        	throw new IllegalArgumentException(
+        			Messages.get("console.invalid"),
+        			exception);
+        }
     }
 }

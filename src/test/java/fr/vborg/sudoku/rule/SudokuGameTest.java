@@ -1,4 +1,4 @@
-package sudoku;
+package fr.vborg.sudoku.rule;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;

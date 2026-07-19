@@ -1,4 +1,4 @@
-package sudoku;
+package fr.vborg.sudoku.model;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

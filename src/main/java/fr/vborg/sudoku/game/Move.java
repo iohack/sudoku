@@ -24,10 +24,16 @@ public final class Move
 
 
     /**
-     * Creates a move.
+     * Creates a Sudoku move.
      *
-     * @param row the row index
-     * @param column the column index
+     * <p>
+     * Row and column use zero-based indices, consistent with the internal
+     * representation of {@code Grid}. User interfaces are responsible for
+     * converting to and from one-based indices.
+     * </p>
+     *
+     * @param row the zero-based row index
+     * @param column the zero-based column index
      * @param value the value to insert
      */
     public Move(

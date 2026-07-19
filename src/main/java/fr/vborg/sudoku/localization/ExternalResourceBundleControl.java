@@ -9,8 +9,13 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 /**
- * Loads resource bundles from the external configuration directory before
- * falling back to the application resources.
+ * Resource bundle control that first searches for property files in the
+ * external {@code config} directory before falling back to the application's
+ * bundled resources.
+ * <p>
+ * This allows end users to customize localized messages without rebuilding
+ * the application.
+ * </p>
  *
  * @since 1.0
  */
@@ -19,11 +24,15 @@ public final class ExternalResourceBundleControl
 {
 
     /**
-     * External configuration directory.
+     * External configuration path.
      */
-    private static final Path CONFIG_DIRECTORY =
+    private static final Path CONFIG_PATH =
             Path.of("config");
 
+    /**
+     * Loads a resource bundle from the external configuration directory when
+     * available, otherwise delegates to the default implementation.
+     */
     @Override
     public ResourceBundle newBundle(
             final String baseName,
@@ -35,14 +44,23 @@ public final class ExternalResourceBundleControl
             		IllegalAccessException, 
             		InstantiationException
     {
-        final String bundleName =
+    	if (!"java.properties".equals(format))
+    	{
+    	    return super.newBundle(
+    	            baseName,
+    	            locale,
+    	            format,
+    	            loader,
+    	            reload);
+    	}
+    	final String bundleName =
                 toBundleName(baseName, locale);
 
         final Path file =
-                CONFIG_DIRECTORY.resolve(
+                CONFIG_PATH.resolve(
                         bundleName + ".properties");
 
-        if (Files.exists(file))
+        if (Files.isRegularFile(file))
         {
             try (InputStream input =
                     Files.newInputStream(file))

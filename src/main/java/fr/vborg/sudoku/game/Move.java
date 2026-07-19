@@ -5,7 +5,7 @@ import java.util.Objects;
 import fr.vborg.sudoku.localization.Messages;
 
 /**
- * Represents a Sudoku move entered by the user.
+ * Represents a Sudoku move.
  *
  * @since 1.0
  */

@@ -3,34 +3,72 @@
  */
 package fr.vborg.sudoku.ui.console;
 
+import java.util.Objects;
 import java.util.Scanner;
 
+import fr.vborg.sudoku.game.Move;
+
 /**
- * 
+ * Reads user input from the console.
+ *
+ * @since 1.0
  */
-public final class ConsoleInput {
-	 private final Scanner scanner;
+public final class ConsoleInput
+{
+    private static final String QUIT_COMMAND =
+            "quit";
 
-	    public ConsoleInput()
-	    {
-	        scanner = new Scanner(System.in);
-	    }
+    private final Scanner scanner;
 
-	    public int readRow()
-	    {
-	        System.out.print("Row    : ");
-	        return scanner.nextInt();
-	    }
 
-	    public int readColumn()
-	    {
-	        System.out.print("Column : ");
-	        return scanner.nextInt();
-	    } 
+    public ConsoleInput(final Scanner scanner)
+    {
+        this.scanner =
+                Objects.requireNonNull(scanner);
+    }
 
-	    public int readValue()
-	    {
-	        System.out.print("Value  : ");
-	        return scanner.nextInt();
-	    }
+
+    /**
+     * Reads the requested grid size.
+     *
+     * @return the grid size
+     */
+    public int readGridSize()
+    {
+        String input =
+                scanner.nextLine().trim();
+
+        return Integer.parseInt(input);
+    }
+
+
+    /**
+     * Reads a move.
+     *
+     * @return the entered move
+     */
+    public Move readMove()
+    {
+        String input =
+                scanner.nextLine().trim();
+
+        if (QUIT_COMMAND.equalsIgnoreCase(input))
+        {
+            return null;
+        }
+
+        String[] tokens =
+                input.split("\\s+");
+
+        if (tokens.length != 3)
+        {
+            throw new IllegalArgumentException(
+                    "Invalid move");
+        }
+
+        return new Move(
+                Integer.parseInt(tokens[0]) - 1 ,
+                Integer.parseInt(tokens[1]) - 1 ,
+                Integer.parseInt(tokens[2]));
+    }
 }

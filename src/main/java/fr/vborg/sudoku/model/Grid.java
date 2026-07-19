@@ -261,4 +261,30 @@ public class Grid {
 		
 		return column;
 	}
+	
+	/**
+	 * Returns whether the grid is completely filled.
+	 * <p>
+	 * A complete grid does not contain any
+	 * {@link Grid#EMPTY} value.
+	 * </p>
+	 *
+	 * @return {@code true} if all cells contain a value,
+	 *         {@code false} otherwise
+	 */
+	public boolean isComplete()
+	{
+		for(int[] row : values)
+		{
+			for(int value : row)
+			{
+				if( value == EMPTY )
+				{
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
 }

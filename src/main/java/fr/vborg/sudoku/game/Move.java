@@ -109,8 +109,8 @@ public final class Move
     {
         return Messages.get(
         		FORMAT_KEY,
-                row,
-                column,
+                row + 1,
+                column + 1,
                 value);
     }
     

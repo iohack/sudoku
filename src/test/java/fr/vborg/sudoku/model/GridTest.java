@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import fr.vborg.sudoku.model.Grid;
-
 class GridTest {
 
 	// =========================================================
@@ -435,5 +433,45 @@ class GridTest {
                     new int[] {1, 2, 3, 4},
                     grid.getRow(2));
         }
-    }    
+    }
+    
+    @Nested
+    class IsCompleteTest
+    {
+    	private static final int TEST_GRID_SIZE = 9;
+    	@Test
+    	void should_return_false_when_grid_contains_empty_cells()
+    	{
+    		Grid grid = new Grid(TEST_GRID_SIZE);
+
+    		assertFalse(
+    				grid.isComplete());
+    	}
+
+    	/**
+    	 * Return a 9x9 grid with all values = 1;
+    	 * @return Grid filled with 1.
+    	 */
+    	private Grid create_nine_sized_grid_with_one_valued_cells() 
+    	{
+    		Grid grid = new Grid(TEST_GRID_SIZE);
+    		for(int rowIndex = 0; rowIndex < TEST_GRID_SIZE; rowIndex++)
+    		{
+    			for(int columnIndex = 0; columnIndex < TEST_GRID_SIZE; columnIndex++)
+    			{
+    				grid.setValue(1, rowIndex, columnIndex);
+    			}
+    		}
+    		return grid;
+    	}
+
+    	@Test
+    	void should_return_true_when_grid_is_filled()
+    	{
+    		Grid grid = create_nine_sized_grid_with_one_valued_cells();
+
+    		assertTrue(
+    				grid.isComplete());
+    	}
+    }
 }

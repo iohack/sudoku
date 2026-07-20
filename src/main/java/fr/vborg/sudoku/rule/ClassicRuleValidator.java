@@ -108,6 +108,17 @@ public class ClassicRuleValidator implements RuleValidator
 				UnitType.BOX,
 				boxIndex);
 	}
-	
-	
+
+	@Override
+	public void validate(final Grid grid) throws RuleException 
+	{
+		int gridSize = grid.getSize();
+		for(int rowIndex = 0; rowIndex < gridSize; rowIndex++)
+		{
+			for(int columnIndex = 0; columnIndex < gridSize; columnIndex++)
+			{
+				validate(grid, rowIndex, columnIndex);
+			}
+		}
+	}
 }

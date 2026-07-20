@@ -274,11 +274,11 @@ public class Grid {
 	 */
 	public boolean isComplete()
 	{
-		for(int[] row : values)
+		for(int rowIndex = 0; rowIndex < size;  rowIndex++)
 		{
-			for(int value : row)
+			for(int columnIndex = 0; columnIndex < size;  columnIndex++)
 			{
-				if( value == EMPTY )
+				if( values[rowIndex][columnIndex] == EMPTY )
 				{
 					return false;
 				}

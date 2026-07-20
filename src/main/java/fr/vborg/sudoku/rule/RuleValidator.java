@@ -21,4 +21,12 @@ public interface RuleValidator {
      * @throws RuleException if a rule is violated
      */
     void validate(final Grid grid, int rowIdx, int colIdx) throws RuleException;
+    
+    /**
+     * Validates the complete grid state.
+     *
+     * @param grid the grid to validate
+     * @throws RuleException if one or more Sudoku rules are violated
+     */
+    void validate(final Grid grid) throws RuleException;  
 }

@@ -127,4 +127,25 @@ public class SudokuGame {
 	{
 	    return grid.getSize();
 	}
+	
+	/**
+	 * Return whether the game is solved or not. 
+	 * @return {@code true} if solved, otherwise {@code false}
+	 */
+	public boolean isSolved()
+	{
+		if( ! grid.isComplete() )
+		{
+			return false;
+		}
+				try
+	    {
+	        validator.validate(grid);
+	        return true;
+	    }
+	    catch (final RuleException exception)
+	    {
+	        return false;
+	    }
+	}
 }

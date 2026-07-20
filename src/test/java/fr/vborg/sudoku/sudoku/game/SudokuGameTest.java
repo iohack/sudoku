@@ -2,6 +2,7 @@ package fr.vborg.sudoku.sudoku.game;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Nested;
@@ -39,9 +40,20 @@ class SudokuGameTest
                     NullPointerException.class,
                     () -> new SudokuGame(9, null)
             );
-        }
+        }       
     }
 
+    @Nested
+    class isSolvedTests
+    {
+    	@Test
+    	void should_not_be_solved_when_grid_is_empty()
+    	{
+    	    SudokuGame game = new SudokuGame(9);
+
+    	    assertFalse(game.isSolved());
+    	}
+    }
 
     @Nested
     class SetValueTests

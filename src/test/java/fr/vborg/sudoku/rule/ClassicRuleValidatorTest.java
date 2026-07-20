@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import fr.vborg.sudoku.model.Grid;
 import fr.vborg.sudoku.model.RuleException;
-import fr.vborg.sudoku.rule.ClassicRuleValidator;
-import fr.vborg.sudoku.rule.RuleValidator;
 
 /**
  * Unit tests for class {@link fr.vborg.sudoku.rule.ClassicRuleValidator}.

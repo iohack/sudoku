@@ -6,6 +6,10 @@ package fr.vborg.sudoku.rule;
 import fr.vborg.sudoku.model.Grid;
 import fr.vborg.sudoku.model.RuleException;
 
+// TODO : séparer la validation en ligne, colonne, box.
+// Amélioration des performances, éviter de calculer la
+// validation pour une valeur plusieurs fois.
+
 /**
  * Validates that the specified values respect the Sudoku rules.
  *

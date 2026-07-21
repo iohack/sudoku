@@ -26,7 +26,17 @@ public class ClassicRuleValidator implements RuleValidator
 		
 		validateRow(grid, rowIndex);
 		validateColumn(grid, columnIndex);
-		validateBox(grid, rowIndex, columnIndex);
+		validateBox(grid, getBoxIndex(grid, rowIndex, columnIndex));
+	}
+	
+	private int getBoxIndex(final Grid grid, final int rowIndex, final int columnIndex)
+	{
+		final int boxSize = grid.getBoxSize();
+
+		final int boxIndex =
+				(rowIndex / boxSize) * boxSize
+				+ (columnIndex / boxSize);
+		return boxIndex;
 	}
 
 	private void validateDuplicates(final int[] values, final UnitType unitType, final int unitIndex) throws RuleException 
@@ -79,31 +89,29 @@ public class ClassicRuleValidator implements RuleValidator
 		}		
 	}
 	
-	private void validateRow(final Grid grid, 
+	public void validateRow(final Grid grid, 
 							 final int rowIndex) 
 			throws RuleException {
 	    validateDuplicates(grid.getRow(rowIndex), UnitType.ROW, rowIndex);
 	}
 
-	private void validateColumn(final Grid grid, 
+	public void validateColumn(final Grid grid, 
 								final int columnIndex) 
 			throws RuleException {
 	    validateDuplicates(grid.getColumn(columnIndex), UnitType.COLUMN, columnIndex);
 	}
 	
-	private void validateBox(final Grid grid,
-							 final int rowIndex,
-							 final int columnIndex)
+	public void validateBox(final Grid grid, final int boxIndex)
 			throws RuleException
 	{
-		// Validate row and column indexes before computing the box index.
+		/* Validate row and column indexes before computing the box index.
 		grid.getValue(rowIndex, columnIndex);
 		final int boxSize = grid.getBoxSize();
 
 		final int boxIndex =
 				(rowIndex / boxSize) * boxSize
 				+ (columnIndex / boxSize);
-
+		*/
 		validateDuplicates(grid.getBox(boxIndex),
 				UnitType.BOX,
 				boxIndex);

@@ -29,6 +29,13 @@ public class ClassicRuleValidator implements RuleValidator
 		validateBox(grid, getBoxIndex(grid, rowIndex, columnIndex));
 	}
 	
+	/**
+	 * Compute the box index of the value specified at its row and column index.
+	 * @param grid the grid
+	 * @param rowIndex the row index
+	 * @param columnIndex the column index
+	 * @return the box index
+	 */
 	private int getBoxIndex(final Grid grid, final int rowIndex, final int columnIndex)
 	{
 		final int boxSize = grid.getBoxSize();
@@ -89,29 +96,24 @@ public class ClassicRuleValidator implements RuleValidator
 		}		
 	}
 	
+	@Override
 	public void validateRow(final Grid grid, 
 							 final int rowIndex) 
 			throws RuleException {
 	    validateDuplicates(grid.getRow(rowIndex), UnitType.ROW, rowIndex);
 	}
 
+	@Override
 	public void validateColumn(final Grid grid, 
 								final int columnIndex) 
 			throws RuleException {
 	    validateDuplicates(grid.getColumn(columnIndex), UnitType.COLUMN, columnIndex);
 	}
 	
+	@Override
 	public void validateBox(final Grid grid, final int boxIndex)
 			throws RuleException
 	{
-		/* Validate row and column indexes before computing the box index.
-		grid.getValue(rowIndex, columnIndex);
-		final int boxSize = grid.getBoxSize();
-
-		final int boxIndex =
-				(rowIndex / boxSize) * boxSize
-				+ (columnIndex / boxSize);
-		*/
 		validateDuplicates(grid.getBox(boxIndex),
 				UnitType.BOX,
 				boxIndex);

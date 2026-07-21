@@ -3,11 +3,10 @@
  */
 package fr.vborg.sudoku.rule;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import fr.vborg.sudoku.model.Grid;
@@ -16,6 +15,7 @@ import fr.vborg.sudoku.model.RuleException;
 /**
  * 
  */
+@Tag("benchmark")
 public class ClassicRuleValidatorBenchTest 
 {
 	private final RuleValidator validator =
@@ -24,7 +24,7 @@ public class ClassicRuleValidatorBenchTest
 	@Nested
 	class BenchTest
 	{
-		private final int ITERATION_COUNT = 10000000;
+		private final int ITERATION_COUNT = 10_000_000;
 		private final int TEST_GRID_SIZE = 16;
 		
 		/**
@@ -33,8 +33,8 @@ public class ClassicRuleValidatorBenchTest
 		private BenchTest()
 		{
 			System.out.println("Starting bench with : ");
-			System.out.println("Grid size : " + TEST_GRID_SIZE);
-			System.out.println("Iteration count : " + ITERATION_COUNT);			
+			//System.out.println("Grid size : " + TEST_GRID_SIZE);
+			//System.out.println("Iteration count : " + ITERATION_COUNT);			
 		}
 		
 		@Test
@@ -43,7 +43,7 @@ public class ClassicRuleValidatorBenchTest
 			try{
 				Grid grid = new Grid(TEST_GRID_SIZE);
 
-				final long valueStartTime = System.currentTimeMillis();
+				final long valueStartTime = System.nanoTime();
 				for(int count = 0; count < ITERATION_COUNT; count++)
 				{
 					for(int columnIndex = 0; columnIndex < TEST_GRID_SIZE; columnIndex++)
@@ -51,9 +51,7 @@ public class ClassicRuleValidatorBenchTest
 						validator.validate(grid, 0, columnIndex);
 					}
 				}
-				final long valueEndTime = System.currentTimeMillis();
-			
-				System.out.println("Value validation time  : " + (valueEndTime - valueStartTime) + "ms");
+				System.out.printf("Value validation time : %.3f ms%n", (System.nanoTime() - valueStartTime) / 1_000_000.0);
 			}
 			catch(final RuleException ruleException)
 			{
@@ -66,15 +64,17 @@ public class ClassicRuleValidatorBenchTest
 		{
 			try{
 				Grid grid = new Grid(TEST_GRID_SIZE);
-				
-				final long newStartTime = System.currentTimeMillis();
+				// Warm-up
+				for (int i = 0; i < 10_000; i++) {
+				    validator.validate(grid, 0, 0);
+				}
+				final long columnStartTime = System.nanoTime();
 				for(int count = 0; count < ITERATION_COUNT; count++)
 				{
 					validator.validateColumn(grid, 0);
 					
-				}
-				final long newEndTime = System.currentTimeMillis();
-				System.out.println("Column validation time : " + (newEndTime - newStartTime) + "ms");				
+				}				
+				System.out.printf("Column validation time : %.3f ms%n", (System.nanoTime() - columnStartTime) / 1_000_000.0);				
 			}
 			catch(final RuleException ruleException)
 			{
@@ -87,15 +87,17 @@ public class ClassicRuleValidatorBenchTest
 		{
 			try{
 				Grid grid = new Grid(TEST_GRID_SIZE);
-				
-				final long newStartTime = System.currentTimeMillis();
+				// Warm-up
+				for (int i = 0; i < 10_000; i++) {
+				    validator.validateRow(grid, 0);
+				}
+				final long rowStartTime = System.nanoTime();
 				for(int count = 0; count < ITERATION_COUNT; count++)
 				{
 					validator.validateRow(grid, 0);
 					
 				}
-				final long newEndTime = System.currentTimeMillis();
-				System.out.println("Row validation time   : " + (newEndTime - newStartTime) + "ms");				
+				System.out.printf("Row validation time : %.3f ms%n", (System.nanoTime() - rowStartTime) / 1_000_000.0);
 			}
 			catch(final RuleException ruleException)
 			{
@@ -107,15 +109,17 @@ public class ClassicRuleValidatorBenchTest
 		{
 			try{
 				Grid grid = new Grid(TEST_GRID_SIZE);
-				
-				final long newStartTime = System.currentTimeMillis();
+				// Warm-up
+				for (int i = 0; i < 10_000; i++) {
+				    validator.validateBox(grid, 0);
+				}
+				final long boxStartTime = System.nanoTime();
 				for(int count = 0; count < ITERATION_COUNT; count++)
 				{
 					validator.validateBox(grid, 0);
 					
 				}
-				final long newEndTime = System.currentTimeMillis();
-				System.out.println("Box validation time   : " + (newEndTime - newStartTime) + "ms");				
+				System.out.printf("Box validation time : %.3f ms%n", (System.nanoTime() - boxStartTime) / 1_000_000.0);				
 			}
 			catch(final RuleException ruleException)
 			{

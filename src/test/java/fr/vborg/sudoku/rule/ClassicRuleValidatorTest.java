@@ -118,4 +118,21 @@ class ClassicRuleValidatorTest
 	        );
 	    }
 	}
+	
+	@Nested
+	class ValidateRowTests
+	{
+		private final int TEST_GRID_SIZE = 9;
+		@Test
+		public void should_not_throw_when_has_no_duplicate()
+		{
+			Grid grid = new Grid(TEST_GRID_SIZE);
+			for(int columnIndex = 0; columnIndex < TEST_GRID_SIZE; columnIndex++)
+			{
+				grid.setValue(columnIndex+1, 0, columnIndex);
+			}
+			assertDoesNotThrow(() ->
+			validator.validateRow(grid, 0));
+		}		
+	}
 }

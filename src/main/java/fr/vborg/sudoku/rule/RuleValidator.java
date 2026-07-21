@@ -32,5 +32,30 @@ public interface RuleValidator {
      * @param grid the grid to validate
      * @throws RuleException if one or more Sudoku rules are violated
      */
-    void validate(final Grid grid) throws RuleException;  
+    void validate(final Grid grid) throws RuleException;
+    
+    /**
+     * Validates a specified row.
+     *
+     * @param rowIndex row index
+     * @throws RuleException if one or more Sudoku rules are violated
+     */
+    void validateRow(final Grid grid, final int rowIndex) throws RuleException;
+    
+    /**
+     * Validates a specified column.
+     *
+     * @param columnIndex row index
+     * @throws RuleException if one or more Sudoku rules are violated
+     */
+    void validateColumn(final Grid grid, final int columnIndex) throws RuleException;
+    
+    /**
+     * Validates a specified box.
+     *
+     * @param boxIndex box index
+     * @throws RuleException if one or more Sudoku rules are violated
+     */
+    void validateBox(final Grid grid, final int boxIndex) throws RuleException;
+    
 }

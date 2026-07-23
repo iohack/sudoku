@@ -15,12 +15,9 @@ import fr.vborg.sudoku.model.Grid;
  */
 public interface GridGenerator {
 	/**
-     * Generates a complete Sudoku grid of the specified size.
-     *
-     * <p>The returned grid contains no {@link Grid#EMPTY} cells
-     * and satisfies all Sudoku rules.</p>
-     *
-     * @param size the grid size (4, 9, 16, ...)
+     * Generates Sudoku grids.
+	 *
+	 * @param size the grid size (4, 9, 16, ...)
      * @return a generated Sudoku grid
      * @throws IllegalArgumentException if the size is invalid
    	 * @throws GridGenerationException if generating problem

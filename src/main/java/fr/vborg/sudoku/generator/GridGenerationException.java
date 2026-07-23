@@ -14,4 +14,9 @@ public class GridGenerationException extends Exception
     {
     	super(message);
     }
+    
+    public GridGenerationException(final String message, final Throwable cause)
+    {
+    	super(message, cause);
+    }
 }

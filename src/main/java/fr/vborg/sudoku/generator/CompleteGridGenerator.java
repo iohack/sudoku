@@ -5,7 +5,8 @@ import fr.vborg.sudoku.model.Grid;
 /**
  * Generates complete Sudoku solutions.
  */
-public interface CompleteGridGenerator extends GridGenerator {
+public interface CompleteGridGenerator extends GridGenerator 
+{
 	/**
      * Generates a completed Sudoku grid.
      *
@@ -13,5 +14,5 @@ public interface CompleteGridGenerator extends GridGenerator {
      * @return a complete valid Sudoku solution
      */
     @Override
-    Grid generate(int size) throws GridGenerationException;
+    Grid generate(final int size) throws GridGenerationException;
 }

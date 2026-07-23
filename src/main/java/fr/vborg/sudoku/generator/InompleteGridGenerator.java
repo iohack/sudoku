@@ -13,5 +13,5 @@ public interface InompleteGridGenerator extends GridGenerator {
      * @return a complete valid Sudoku solution
      */
     @Override
-    Grid generate(int size) throws GridGenerationException;
+    Grid generate(final int size) throws GridGenerationException;
 }

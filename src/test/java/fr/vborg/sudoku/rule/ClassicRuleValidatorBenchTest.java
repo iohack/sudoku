@@ -119,7 +119,7 @@ public class ClassicRuleValidatorBenchTest
 					validator.validateBox(grid, 0);
 					
 				}
-				System.out.printf("Box validation time : %.3f ms%n", (System.nanoTime() - boxStartTime) / 1_000_000.0);				
+				System.out.printf("Box validation time : %.3f ms%n", ((System.nanoTime() - boxStartTime) / 1_000_000.0));				
 			}
 			catch(final RuleException ruleException)
 			{

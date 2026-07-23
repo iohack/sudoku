@@ -23,6 +23,7 @@ public interface GridGenerator {
      * @param size the grid size (4, 9, 16, ...)
      * @return a generated Sudoku grid
      * @throws IllegalArgumentException if the size is invalid
-     */
-	public Grid generate(final int size);
+   	 * @throws GridGenerationException if generating problem
+	 */
+	public Grid generate(final int size) throws GridGenerationException;
 }

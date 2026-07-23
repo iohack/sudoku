@@ -8,12 +8,13 @@ import fr.vborg.sudoku.model.Grid;
 /**
  * Create an empty Grid
  */
-public class EmptyGridGenerator implements GridGenerator {
+public class EmptyGridGenerator implements GridGenerator 
+{
 
 	@Override
-	public Grid generate(int size) throws GridGenerationException {
-		// TODO Auto-generated method stub
-		return null;
+	public Grid generate(final int size) throws GridGenerationException 
+	{
+		return new Grid(size);
 	}
 
 }

@@ -1,2 +1,8 @@
-fr.vborg.sudoku.utils
-sudoku
+fr.vborg.sudoku.game
+fr.vborg.sudoku.generator
+fr.vborg.sudoku.localization
+fr.vborg.sudoku.model
+fr.vborg.sudoku.rule
+fr.vborg.sudoku.sudoku.game
+fr.vborg.sudoku.tools.io.csv
+fr.vborg.sudoku.ui.console

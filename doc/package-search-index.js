@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"fr.vborg.sudoku.utils"},{"l":"sudoku"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"fr.vborg.sudoku.game"},{"l":"fr.vborg.sudoku.generator"},{"l":"fr.vborg.sudoku.localization"},{"l":"fr.vborg.sudoku.model"},{"l":"fr.vborg.sudoku.rule"},{"l":"fr.vborg.sudoku.sudoku.game"},{"l":"fr.vborg.sudoku.tools.io.csv"},{"l":"fr.vborg.sudoku.ui.console"}];updateSearchResults();

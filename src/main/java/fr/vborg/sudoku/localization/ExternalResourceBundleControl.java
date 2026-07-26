@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
  * the application.
  * </p>
  *
- * @since 1.0
+ * @since 1.8.1
  */
 public final class ExternalResourceBundleControl
         extends ResourceBundle.Control

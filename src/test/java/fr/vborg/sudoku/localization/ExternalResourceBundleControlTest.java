@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for {@link ExternalResourceBundleControl}.
  *
- * @since 1.0
+ * @since 1.8.1
  */
 class ExternalResourceBundleControlTest
 {

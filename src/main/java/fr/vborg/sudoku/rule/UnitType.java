@@ -1,7 +1,7 @@
 /**
  * Contains the classes responsible for validating Sudoku rules.
  *
- * @since 1.0
+ * @since 1.8.1
  */
 package fr.vborg.sudoku.rule;
 
@@ -11,7 +11,7 @@ package fr.vborg.sudoku.rule;
  * <p>A unit is a group of cells that must contain unique values
  * according to the Sudoku rules.</p>
  *
- * @since 1.0
+ * @since 1.8.1
  */
 public enum UnitType 
 {

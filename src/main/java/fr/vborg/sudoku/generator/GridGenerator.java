@@ -11,7 +11,7 @@ import fr.vborg.sudoku.model.Grid;
  * <p>Implementations are responsible for creating a complete
  * Sudoku grid that satisfies the game rules.</p>
  *
- * @since 1.0
+ * @since 1.8.1
  */
 public interface GridGenerator {
 	/**

@@ -13,7 +13,7 @@ import fr.vborg.sudoku.model.RuleException;
 /**
  * Validates that the specified values respect the Sudoku rules.
  *
- * @since 1.0
+ * @since 1.8.1
  */
 public interface RuleValidator {
 	/**

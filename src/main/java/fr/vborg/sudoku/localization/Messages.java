@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 /**
  * Provides localized messages.
  *
- * @since 1.0
+ * @since 1.8.1
  */
 public final class Messages
 {

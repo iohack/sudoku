@@ -12,7 +12,7 @@ import fr.vborg.sudoku.localization.Messages;
 /**
  * Reads user input from the console.
  *
- * @since 1.0
+ * @since 1.8.1
  */
 public final class ConsoleInput
 {

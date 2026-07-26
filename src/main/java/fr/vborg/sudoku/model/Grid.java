@@ -5,7 +5,7 @@
  * They are only responsible for representing and manipulating the
  * application's data.</p>
  *
- * @since 1.0
+ * @since 1.8.1
  */
 package fr.vborg.sudoku.model;
 

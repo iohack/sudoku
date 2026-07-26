@@ -9,7 +9,7 @@ import fr.vborg.sudoku.model.RuleException;
  * <p>Ensures that each row, column and box contains unique values.
  * Empty cells ({@link Grid#EMPTY}) are ignored during validation.</p>
  *
- * @since 1.0
+ * @since 1.8.1
  * <ul>
  *   <li>Unique values in every row.</li>
  *   <li>Unique values in every column.</li>

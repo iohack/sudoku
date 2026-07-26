@@ -18,7 +18,7 @@ import fr.vborg.sudoku.rule.RuleValidator;
  * using a {@link RuleValidator}.
  * </p>
  *
- * @since 1.0
+ * @since 1.8.1
  */
 public class SudokuGame {
 	/**

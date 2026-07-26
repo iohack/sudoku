@@ -14,7 +14,7 @@ import fr.vborg.sudoku.model.Grid;
  * variants.
  * </p>
  *
- * @since 1.0
+ * @since 1.8.1
  */
 public class ConsoleRenderer {
 	/**

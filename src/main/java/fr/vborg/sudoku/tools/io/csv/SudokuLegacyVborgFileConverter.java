@@ -49,7 +49,7 @@ import fr.vborg.sudoku.localization.Messages;
 * <p>This class is stateless and its utility methods do not maintain
 * internal mutable state.</p>
 *
-* @since 1.0
+* @since 1.8.1
 */
 public final class SudokuLegacyVborgFileConverter {
 	/**
